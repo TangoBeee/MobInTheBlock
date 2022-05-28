@@ -1,0 +1,12 @@
+name: MobInBlock
+version: '${project.version}'
+main: app.netlify.tangobee.mobinblock.mobinblock.MobInBlock
+api-version: 1.18
+authors: [ TangoBee ]
+description: If you mine any block a random mob will spawn in 5 seconds
+website: https://tangobee.netlify.app
+
+commands:
+  donate:
+    description: Please support us by donating money
+    usage: /<command>
