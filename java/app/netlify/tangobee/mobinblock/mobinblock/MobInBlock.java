@@ -1,8 +1,6 @@
 package app.netlify.tangobee.mobinblock.mobinblock;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
@@ -12,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
 import java.util.Random;
 
 public final class MobInBlock extends JavaPlugin implements Listener {
@@ -24,22 +23,29 @@ public final class MobInBlock extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event){
+        Location playLoc = event.getPlayer().getLocation();
         event.getPlayer().setHealth(20);
         Bukkit.getScheduler().runTaskLater(this, () -> {
+            event.getPlayer().playSound(playLoc,Sound.ENTITY_EXPERIENCE_ORB_PICKUP,SoundCategory.MASTER,0.9f,0.4f);
             event.getPlayer().sendTitle("\u00A72 3 Seconds",null,0,20,0);
         }, 20L);
         Bukkit.getScheduler().runTaskLater(this, () -> {
+            event.getPlayer().playSound(playLoc,Sound.ENTITY_EXPERIENCE_ORB_PICKUP,SoundCategory.MASTER,0.9f,0.4f);
             event.getPlayer().sendTitle("\u00A79 2 Seconds",null,0,20,0);
         }, 40L);
         Bukkit.getScheduler().runTaskLater(this, () -> {
+            event.getPlayer().playSound(playLoc,Sound.ENTITY_EXPERIENCE_ORB_PICKUP,SoundCategory.MASTER,0.9f,0.4f);
             event.getPlayer().sendTitle("\u00A7a 1 Seconds",null,0,20,0);
         }, 60L);
         Bukkit.getScheduler().runTaskLater(this, () -> {
+            event.getPlayer().playSound(playLoc,Sound.BLOCK_AMETHYST_BLOCK_BREAK,SoundCategory.MASTER,0.9f,0.4f);
             event.getPlayer().sendTitle("\u00A7e Spawn!!!",null,0,20,0);
             Location location = event.getBlock().getLocation();
             location = location.add(0,1,0);
             EntityType entityType = EntityType.values()[new Random().nextInt(EntityType.values().length)];
-            event.getPlayer().getLocation().getWorld().spawnEntity(location, entityType);
+            Objects.requireNonNull(event.getBlock().getLocation().getWorld()).spawnParticle(Particle.CAMPFIRE_SIGNAL_SMOKE,location,100);
+            event.getPlayer().playSound(playLoc,Sound.ITEM_CHORUS_FRUIT_TELEPORT,SoundCategory.MASTER,0.9f,0.4f);
+            Objects.requireNonNull(event.getPlayer().getLocation().getWorld()).spawnEntity(location, entityType);
         }, 80L);
 
 
